@@ -5,14 +5,15 @@ import { Divider, Grid, Input } from 'semantic-ui-react'
 import { createTodo } from '../api/todos-api'
 
 export function NewTodoInput({ onNewTodo }) {
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN
   const [newTodoName, setNewTodoName] = useState('')
-
+cd ..Column
   const { getAccessTokenSilently } = useAuth0()
 
   const onTodoCreate = async (event) => {
     try {
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test-endpoint.auth0.com/api/v2/`,
+        audience: `https://${domain}/api/v2/`,
         scope: 'write:todos'
       })
       const dueDate = calculateDueDate()
@@ -21,6 +22,7 @@ export function NewTodoInput({ onNewTodo }) {
         dueDate
       })
       onNewTodo(createdTodo)
+      console.log('Created new todo', createdTodo)
     } catch (e) {
       console.log('Failed to created a new TODO', e)
       alert('Todo creation failed')

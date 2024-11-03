@@ -17,6 +17,7 @@ import { deleteTodo, getTodos, patchTodo } from '../api/todos-api'
 import { NewTodoInput } from './NewTodoInput'
 
 export function Todos() {
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN
   function renderTodos() {
     if (loadingTodos) {
       return renderLoading()
@@ -77,13 +78,14 @@ export function Todos() {
   async function onTodoDelete(todoId) {
     try {
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test-endpoint.auth0.com/api/v2/`,
+        audience: `https://${domain}/api/v2/`,
         scope: 'delete:todo'
       })
+      console.log('Access token: ' + accessToken)
       await deleteTodo(accessToken, todoId)
       setTodos(todos.filter((todo) => todo.todoId !== todoId))
     } catch (e) {
-      alert('Todo deletion failed')
+      alert('Todo deletion failed 2')
     }
   }
 
@@ -91,7 +93,7 @@ export function Todos() {
     try {
       const todo = todos[pos]
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test-endpoint.auth0.com/api/v2/`,
+        audience: `https://${domain}/api/v2/`,
         scope: 'write:todo'
       })
       await patchTodo(accessToken, todo.todoId, {
@@ -106,7 +108,7 @@ export function Todos() {
       )
     } catch (e) {
       console.log('Failed to check a TODO', e)
-      alert('Todo deletion failed')
+      alert('Todo deletion failed 1')
     }
   }
 
@@ -123,16 +125,19 @@ export function Todos() {
     name: user.name,
     email: user.email
   })
+  console.log('todos', {
+    name: todos
+  })
 
   useEffect(() => {
     async function foo() {
       try {
         const accessToken = await getAccessTokenSilently({
-          audience: `https://test-endpoint.auth0.com/api/v2/`,
+          audience: `https://${domain}/api/v2/`,
           scope: 'read:todos'
         })
         console.log('Access token: ' + accessToken)
-        const todos = await getTodos(accessToken)
+        const todos = await getTodos(accessToken) 
         setTodos(todos)
         setLoadingTodos(false)
       } catch (e) {
