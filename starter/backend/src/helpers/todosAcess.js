@@ -1,8 +1,6 @@
 import * as AWS from 'aws-sdk';
 import * as AWSXRay from 'aws-xray-sdk';
 import { createLogger } from '../utils/logger';
-import { TodoItem } from '../../models/TodoItem';
-import { TodoUpdate } from '../../models/TodoUpdate';
 
 const XAWS = AWSXRay.captureAWS(AWS);
 const logger = createLogger('TodosAccess');
@@ -31,7 +29,7 @@ export class TodosAccess {
       .promise();
 
     const items = result.Items;
-    return items; // Không cần ép kiểu
+    return items;
   }
 
   async getTodoItem(todoId, userId) {
@@ -47,7 +45,7 @@ export class TodosAccess {
       })
       .promise();
 
-    return result.Item; // Không cần ép kiểu
+    return result.Item;
   }
 
   async createTodoItem(todoItem) {

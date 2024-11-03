@@ -7,7 +7,7 @@ import { createTodo } from '../api/todos-api'
 export function NewTodoInput({ onNewTodo }) {
   const domain = process.env.REACT_APP_AUTH0_DOMAIN
   const [newTodoName, setNewTodoName] = useState('')
-cd ..Column
+
   const { getAccessTokenSilently } = useAuth0()
 
   const onTodoCreate = async (event) => {
@@ -37,7 +37,7 @@ cd ..Column
             color: 'teal',
             labelPosition: 'left',
             icon: 'add',
-            content: 'New task',
+            content: 'Add new Todo',
             onClick: onTodoCreate
           }}
           fluid

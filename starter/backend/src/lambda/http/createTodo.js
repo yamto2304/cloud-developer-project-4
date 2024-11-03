@@ -11,7 +11,7 @@ export const handler = middy(async (event) => {
   const newTodo = JSON.parse(event.body);
   logger.info('create todo');
   const userId = getUserId(event);
-  
+
   try {
     const item = await createTodo(newTodo, userId);
     return {

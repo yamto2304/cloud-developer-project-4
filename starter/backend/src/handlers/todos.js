@@ -15,7 +15,7 @@ export async function createTodo(createTodoRequest, userId) {
   logger.info('Creating a todo item');
   const todoId = uuid.v4();
   const s3AttachmentUrl = attachmentUtils.getAttachmentUrl(todoId);
-  
+
   const newTodo = {
     userId,
     todoId,
@@ -43,9 +43,9 @@ export async function updateTodo(userId, todoId, updateTodoRequest) {
 export async function updateTodoNote(userId, todoId, note) {
   logger.info('Updating todo note');
   const item = await todosAccess.getTodoItem(todoId, userId);
-  
+
   if (!item) throw new Error('Item not found');
-  
+
   if (item.userId !== userId) {
     throw new Error('User not authorized to update item');
   }

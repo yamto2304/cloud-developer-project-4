@@ -7,7 +7,7 @@ import { deleteTodo } from '../../handlers/todos';
 export const handler = middy(async (event) => {
   const todoId = event.pathParameters.todoId;
   const userId = getUserId(event);
-  
+
   try {
     await deleteTodo(todoId, userId);
     return {
